@@ -1,0 +1,74 @@
+########################################
+# Maven
+########################################
+target/
+
+# Maven Wrapper (manter apenas o necessário)
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+########################################
+# Logs
+########################################
+**/logs/
+*.log
+log/
+logs/
+logging/
+
+########################################
+# IDEs
+########################################
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code
+.vscode/
+
+########################################
+# Sistema Operacional
+########################################
+.DS_Store
+Thumbs.db
+
+########################################
+# Arquivos de Configuração
+########################################
+
+# ⚠️ Versionar apenas o application.properties principal
+# (para o projeto rodar em qualquer máquina)
+# Ignorar arquivos de propriedades específicos de ambientes
+src/main/resources/application-*.properties
+
+# Permitir versionar o arquivo principal
+!src/main/resources/application.properties
+
+# Arquivos de exemplo para referência podem ser versionados
+!src/main/resources/application-example.properties
+
+# Variáveis de ambiente
+.env
+.env.*
+
+########################################
+# Backup, caches e temporários
+########################################
+*.tmp
+*.bak
+*.old
+*.swp
+
+########################################
+# Arquivos adicionais
+########################################
+
+# Dados locais não necessários ao versionamento
+data/
+
+# Arquivo de ajuda gerado
+HELP.md
