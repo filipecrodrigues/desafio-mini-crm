@@ -28,8 +28,10 @@ public class ClienteController {
     //criar um cliente
     @PostMapping
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente payload){
-        Cliente cliente  =clienteRepository.save(payload);
-        return ResponseEntity.created(URI.create("/clientes"+ cliente.getId())).body(cliente);
+        Cliente cliente  = clienteRepository.save(payload);
+        return ResponseEntity
+                .created(URI.create("/api/clientes"+ cliente.getId()))
+                .body(cliente);
     }
     //listar todos os clientes
     @GetMapping
@@ -37,15 +39,29 @@ public class ClienteController {
         return ResponseEntity.ok(clienteRepository.findAll());
     }
 
-    @PostMapping
+    @PostMapping("/{id}/contatos")
     public ResponseEntity<Contato> criarContato(@PathVariable Long id, @RequestBody Contato payload){
-        var clienteOpt =clienteRepository.findById (id);
-        if (clienteOpt.isEmpty()) return ResponseEntity.notFound().build();
+        var clienteOpt = clienteRepository.findById (id);
+        if (clienteOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
 
+        }
 
         var cliente =clienteOpt.get();
         payload.setId(null);
         payload.setCliente(cliente);
 
+        var salvo = contatoRepository.save(payload);
+        return ResponseEntity
+                .created(URI.create("/api/clientes"+id+"/contatos"+salvo.getId()))
+                .body(salvo);
+    }
+
+    //endpoint listar contatos
+    @GetMapping("/{id}/contatos")
+    public ResponseEntity<List<Contato>> listarContatos(@PathVariable Long id){
+        return clienteRepository.findById(id)
+                .map( c -> ResponseEntity.ok(c.getContatos())) //o c é o parâmetro da expressão lambda, ou seja, uma variável que representa cada objeto Cliente que está sendo processado dentro do map
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
